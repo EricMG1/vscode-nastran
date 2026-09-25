@@ -146,3 +146,7 @@ utils/docs/tmp
 
 # Hover test bdf
 utils/test.bdf
+# JetBrains plugin build output
+jetbrains/.gradle/
+jetbrains/.intellijPlatform/
+jetbrains/.kotlin/
