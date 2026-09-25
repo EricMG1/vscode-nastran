@@ -20,7 +20,8 @@ repositories {
 
 dependencies {
     intellijPlatform {
-        pycharmCommunity(providers.gradleProperty("platformVersion"))
+        // Only the common platform is used, so IDEA Community builds a plugin that runs in PyCharm too
+        intellijIdeaCommunity(providers.gradleProperty("platformVersion"))
         testFramework(TestFrameworkType.Platform)
     }
     testImplementation("junit:junit:4.13.2")
