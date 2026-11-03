@@ -9,6 +9,9 @@ This [Visual Studio Code](https://code.visualstudio.com/) extension aims to buil
 > **Note**
 > There are several flavors of `Nastran`. This extension is specifically built for [`MSC Nastran`](https://nexus.hexagon.com/documentationcenter/bundle/MSC_Nastran_2022.4/page/MSC_Nastran_main.htm); however, it may be expanded in the future to support [`Simcenter Nastran`](https://plm.sw.siemens.com/en-US/simcenter/mechanical-simulation/nastran/) and the original [`NASTRAN-95`](https://github.com/nasa/NASTRAN-95). There is significant overlap between the various versions of `Nastran` and this extension may still prove useful even if you are not using `MSC Nastran`.
 
+> **Note**
+> A native plugin for PyCharm and the other JetBrains IDEs lives in [`jetbrains/`](jetbrains/README.md). It shares this extension's documentation pages and grammar, and needs no Python install.
+
 ## Requirements
 
 In order to use this extension, the user must have the following installed:

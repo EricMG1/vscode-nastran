@@ -1,0 +1,77 @@
+<idea-plugin>
+    <id>com.nastran.jetbrains</id>
+    <name>MSC Nastran</name>
+    <vendor url="https://github.com/EricMG1/vscode-nastran">vscode-nastran contributors</vendor>
+
+    <description><![CDATA[
+    <p>Editing support for MSC Nastran input decks (<code>.bdf</code>, <code>.dat</code>, <code>.nas</code>),
+    ported from the <a href="https://github.com/dmarc3/vscode-nastran">vscode-nastran</a> extension.</p>
+    <ul>
+      <li>Syntax highlighting for File Management, Executive Control, Case Control and Bulk Data</li>
+      <li>Alternate bulk data field shading for small, large and free field formats</li>
+      <li>Quick documentation on hover for over 1,200 entries from the MSC Nastran Quick Reference Guide</li>
+      <li>Completion of entry names, inserting the card's field template, and of PARAM names</li>
+      <li>Ctrl+Click on INCLUDE statements and an Include Hierarchy tool window</li>
+      <li>Find in Includes across the whole include tree</li>
+      <li>Run configurations that execute Nastran with your keywords</li>
+      <li>Short and long field ruler comments, and <code>$</code> line comments</li>
+    </ul>
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType name="Nastran" implementationClass="com.nastran.jetbrains.lang.NastranFileType" fieldName="INSTANCE"
+                  language="Nastran" extensions="bdf;dat;nas"/>
+        <lang.parserDefinition language="Nastran" implementationClass="com.nastran.jetbrains.psi.NastranParserDefinition"/>
+        <lang.syntaxHighlighterFactory language="Nastran"
+                                       implementationClass="com.nastran.jetbrains.lang.NastranSyntaxHighlighterFactory"/>
+        <colorSettingsPage implementation="com.nastran.jetbrains.lang.NastranColorSettingsPage"/>
+        <additionalTextAttributes scheme="Default" file="colorSchemes/NastranDefault.xml"/>
+        <additionalTextAttributes scheme="Darcula" file="colorSchemes/NastranDarcula.xml"/>
+        <lang.commenter language="Nastran" implementationClass="com.nastran.jetbrains.editor.NastranCommenter"/>
+        <lang.foldingBuilder language="Nastran" implementationClass="com.nastran.jetbrains.editor.NastranFoldingBuilder"/>
+        <annotator language="Nastran" implementationClass="com.nastran.jetbrains.editor.NastranAnnotator"/>
+        <psi.referenceContributor language="Nastran"
+                                  implementation="com.nastran.jetbrains.editor.FileLinkReferenceContributor"/>
+        <lang.documentationProvider language="Nastran"
+                                    implementationClass="com.nastran.jetbrains.docs.NastranDocumentationProvider"/>
+        <completion.contributor language="Nastran"
+                                implementationClass="com.nastran.jetbrains.completion.NastranCompletionContributor"/>
+
+        <toolWindow id="Nastran Includes" anchor="left" secondary="true" icon="/icons/mesh.png"
+                    factoryClass="com.nastran.jetbrains.includes.IncludeHierarchyToolWindowFactory"/>
+        <postStartupActivity implementation="com.nastran.jetbrains.includes.NastranStartupActivity"/>
+
+        <configurationType implementation="com.nastran.jetbrains.run.NastranRunConfigurationType"/>
+        <runConfigurationProducer implementation="com.nastran.jetbrains.run.NastranRunConfigurationProducer"/>
+
+        <applicationConfigurable parentId="tools" instance="com.nastran.jetbrains.settings.NastranConfigurable"
+                                 id="com.nastran.jetbrains.settings" displayName="Nastran"/>
+    </extensions>
+
+    <projectListeners>
+        <listener class="com.nastran.jetbrains.includes.NastranEditorListener"
+                  topic="com.intellij.openapi.fileEditor.FileEditorManagerListener"/>
+    </projectListeners>
+
+    <actions>
+        <group id="Nastran.Menu" class="com.nastran.jetbrains.actions.NastranActionGroup" text="Nastran" popup="true"
+               icon="/icons/logo.png">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+            <action id="Nastran.Run" class="com.nastran.jetbrains.run.RunNastranAction"
+                    text="Run Nastran" description="Run the current deck with Nastran" icon="AllIcons.Actions.Execute"/>
+            <action id="Nastran.FindInIncludes" class="com.nastran.jetbrains.actions.FindInIncludesAction"
+                    text="Find in Includes..." description="Find text in the deck and all of its include files"/>
+            <action id="Nastran.RebuildIncludeTree" class="com.nastran.jetbrains.actions.RebuildIncludeTreeAction"
+                    text="Rebuild Include Hierarchy" description="Rebuild the include tree with the current file as root deck"
+                    icon="AllIcons.Actions.Refresh"/>
+            <separator/>
+            <action id="Nastran.InsertShortRuler" class="com.nastran.jetbrains.actions.InsertShortRulerAction"
+                    text="Insert Short Field Ruler" description="Insert a small field format ruler comment above the caret"/>
+            <action id="Nastran.InsertLongRuler" class="com.nastran.jetbrains.actions.InsertLongRulerAction"
+                    text="Insert Long Field Ruler" description="Insert a large field format ruler comment above the caret"/>
+        </group>
+    </actions>
+</idea-plugin>
